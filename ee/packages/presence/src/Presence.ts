@@ -13,7 +13,7 @@ export class Presence extends ServiceClass implements IPresence {
 
 	private broadcastEnabled = true;
 
-	private hasLicense = false;
+	private hasLicense = true;
 
 	private lostConTimeout?: NodeJS.Timeout;
 
@@ -43,6 +43,7 @@ export class Presence extends ServiceClass implements IPresence {
 		});
 
 		this.onEvent('license.module', async ({ module, valid }) => {
+			valid = true;
 			if (module === 'scalability') {
 				this.hasLicense = valid;
 
@@ -68,7 +69,8 @@ export class Presence extends ServiceClass implements IPresence {
 		try {
 			await Settings.updateValueById('Presence_broadcast_disabled', false);
 
-			this.hasLicense = await License.hasModule('scalability');
+			// this.hasLicense = await License.hasModule('scalability');
+			this.hasLicense = true;
 		} catch (e: unknown) {
 			// ignore
 		}
@@ -82,7 +84,7 @@ export class Presence extends ServiceClass implements IPresence {
 	}
 
 	async toggleBroadcast(enabled: boolean): Promise<void> {
-		if (!this.hasLicense && this.getTotalConnections() > MAX_CONNECTIONS) {
+		if (this.getTotalConnections() > MAX_CONNECTIONS) {
 			throw new Error('Cannot enable broadcast when there are more than '+MAX_CONNECTIONS+' connections');
 		}
 		this.broadcastEnabled = enabled;
