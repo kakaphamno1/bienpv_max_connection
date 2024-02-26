@@ -6,7 +6,7 @@ import { Settings, Users, UsersSessions } from '@rocket.chat/models';
 
 import { processPresenceAndStatus } from './lib/processConnectionStatus';
 
-const MAX_CONNECTIONS = 200;
+const MAX_CONNECTIONS = 3;
 
 export class Presence extends ServiceClass implements IPresence {
 	protected name = 'presence';
@@ -83,7 +83,7 @@ export class Presence extends ServiceClass implements IPresence {
 
 	async toggleBroadcast(enabled: boolean): Promise<void> {
 		if (!this.hasLicense && this.getTotalConnections() > MAX_CONNECTIONS) {
-			throw new Error('Cannot enable broadcast when there are more than 200 connections');
+			throw new Error('Cannot enable broadcast when there are more than '+MAX_CONNECTIONS+' connections');
 		}
 		this.broadcastEnabled = enabled;
 
