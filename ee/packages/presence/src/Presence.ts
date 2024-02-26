@@ -1,5 +1,5 @@
 import type { IPresence, IBrokerNode } from '@rocket.chat/core-services';
-import { License, ServiceClass } from '@rocket.chat/core-services';
+import { ServiceClass } from '@rocket.chat/core-services';
 import type { IUser } from '@rocket.chat/core-typings';
 import { UserStatus } from '@rocket.chat/core-typings';
 import { Settings, Users, UsersSessions } from '@rocket.chat/models';
