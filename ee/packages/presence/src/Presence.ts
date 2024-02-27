@@ -8,6 +8,7 @@ import { processPresenceAndStatus } from './lib/processConnectionStatus';
 
 const MAX_CONNECTIONS = 10000;
 
+
 export class Presence extends ServiceClass implements IPresence {
 	protected name = 'presence';
 
