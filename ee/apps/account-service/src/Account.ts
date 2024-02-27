@@ -29,6 +29,7 @@ export class Account extends ServiceClass implements IAccount {
 	}
 
 	async login({ resume, user, password }: { resume: string; user: { username: string }; password: string }): Promise<false | ILoginResult> {
+		//
 		if (resume) {
 			return loginViaResume(resume, this.loginExpiration);
 		}
