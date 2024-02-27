@@ -6,7 +6,7 @@ import { Settings, Users, UsersSessions } from '@rocket.chat/models';
 
 import { processPresenceAndStatus } from './lib/processConnectionStatus';
 
-const MAX_CONNECTIONS = 3;
+const MAX_CONNECTIONS = 10000;
 
 export class Presence extends ServiceClass implements IPresence {
 	protected name = 'presence';
@@ -68,6 +68,7 @@ export class Presence extends ServiceClass implements IPresence {
 
 		try {
 			await Settings.updateValueById('Presence_broadcast_disabled', false);
+
 
 			// this.hasLicense = await License.hasModule('scalability');
 			this.hasLicense = true;
@@ -245,11 +246,11 @@ export class Presence extends ServiceClass implements IPresence {
 		if (this.hasLicense) {
 			return;
 		}
-
+		console.log('validateAvailability', this.getTotalConnections() )
 		if (this.getTotalConnections() > MAX_CONNECTIONS) {
 			this.broadcastEnabled = false;
 
-			await Settings.updateValueById('Presence_broadcast_disabled', true);
+			await Settings.updateValueById('Presence_broadcast_disabled', false);
 		}
 	}
 
